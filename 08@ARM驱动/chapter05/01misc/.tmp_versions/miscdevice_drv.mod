@@ -1,0 +1,2 @@
+/home/devin/Documents/job_es/08@ARM驱动/chapter05/01misc/miscdevice_drv.ko
+/home/devin/Documents/job_es/08@ARM驱动/chapter05/01misc/miscdevice_drv.o

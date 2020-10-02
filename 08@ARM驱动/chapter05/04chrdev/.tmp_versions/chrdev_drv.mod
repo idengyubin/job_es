@@ -1,0 +1,2 @@
+/home/devin/Documents/job_es/08@ARM驱动/chapter05/04chrdev/chrdev_drv.ko
+/home/devin/Documents/job_es/08@ARM驱动/chapter05/04chrdev/chrdev_drv.o

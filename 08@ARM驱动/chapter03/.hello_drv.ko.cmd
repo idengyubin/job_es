@@ -1,0 +1,1 @@
+cmd_/home/devin/Documents/job_es/08@ARM驱动/chapter03/hello_drv.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/devin/Documents/job_es/08@ARM驱动/chapter03/hello_drv.ko /home/devin/Documents/job_es/08@ARM驱动/chapter03/hello_drv.o /home/devin/Documents/job_es/08@ARM驱动/chapter03/hello_drv.mod.o

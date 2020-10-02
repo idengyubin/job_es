@@ -1,0 +1,1 @@
+cmd_/home/devin/Documents/job_es/08@ARM驱动/chapter05/01misc/miscdevice_drv.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/devin/Documents/job_es/08@ARM驱动/chapter05/01misc/miscdevice_drv.ko /home/devin/Documents/job_es/08@ARM驱动/chapter05/01misc/miscdevice_drv.o /home/devin/Documents/job_es/08@ARM驱动/chapter05/01misc/miscdevice_drv.mod.o

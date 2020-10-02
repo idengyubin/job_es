@@ -1,0 +1,2 @@
+/home/devin/Documents/job_es/08@ARM驱动/chapter03/01printk/printk_drv.ko
+/home/devin/Documents/job_es/08@ARM驱动/chapter03/01printk/printk_drv.o

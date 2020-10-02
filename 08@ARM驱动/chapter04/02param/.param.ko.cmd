@@ -1,0 +1,1 @@
+cmd_/home/devin/Documents/job_es/08@ARM驱动/chapter04/02param/param.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/devin/Documents/job_es/08@ARM驱动/chapter04/02param/param.ko /home/devin/Documents/job_es/08@ARM驱动/chapter04/02param/param.o /home/devin/Documents/job_es/08@ARM驱动/chapter04/02param/param.mod.o
