@@ -1,6 +1,6 @@
 # １、系统调用
 
-
+由操作系统实现并提供给外部应用程序的编程接口，是应用程序与系统之间的数据交互桥梁。
 
 # 2、 文件IO函数
 
@@ -19,7 +19,11 @@ int close(int fd);
 
 O_RDONLY / O_WRONLY / O_RDWR
 
-O_APPEND / O_CREAT / O_EXEL / O_TRUNC / O_NONBLOCK
+O_APPEND / O_CREAT / O_EXCL / O_TRUNC / O_NONBLOCK
+
+**PCB进程控制块：**
+
+![1602595647780](assets/1602595647780.png)
 
 **文件描述符**：
 
@@ -34,10 +38,6 @@ O_APPEND / O_CREAT / O_EXEL / O_TRUNC / O_NONBLOCK
 STDIN_FILENO  	0
 STDOUT_FILENO  1
 STDERR_FILENO	2
-
-**PCB进程控制块**：
-
-![1597495441528](assets/1597495441528.png)
 
 查看内核源码方法：搜索lxr --> lxr.oss.org.cn
 
@@ -257,7 +257,6 @@ fcntl是用来**修改已经打开文件的属性的函数**，包含5个功能
 获取当前打开文件的访问标志，设置对应的访问标志，一般常用来设置做非阻塞读写操作。
 
 获取、设置记录锁功能，对应的cmd：F_GETLK、F_SETLK、F_SETLKW。
-作为记录锁功能使用，在我的另一篇博客中有介绍《POSIX记录锁》[https://blog.csdn.net/rikeyone/article/details/88743394]
 
 获取、设置异步I/O所有权，对应的cmd：F_GETOWN、F_SETOWN。
 获取和设置用来接收SIGIO/SIGURG信号的进程id或者进程组id。返回对应的进程id或者进程组id取负值。
@@ -266,22 +265,3 @@ fcntl是用来**修改已经打开文件的属性的函数**，包含5个功能
 ## 2.6 ioctl 函数
 
 设备驱动程序中常用，见驱动编程。
-
-# 3、文件系统
-
-## 3.1 文件系统概念
-
-
-
-
-
-## 3.2 文件操作
-
-### 3.2.1 stat函数
-
-```c
-int stat(const char *path, struct stat *buf); 	成返回0；失败返回-1 设置errno为恰当值。
-		参数1：文件名
-		参数2：inode结构体指针 (传出参数)
-```
-
