@@ -1268,3 +1268,86 @@ int main( int argc, char* argv[] ) {
 }// a.~A()    释放ａ对象本身所占据内存空间
 ```
 
+# 9 深谈拷贝构造和拷贝赋值
+
++ 如果不提供拷贝构造和拷贝赋值编译器将提供默认的拷贝构造和拷贝赋值，对于指针型成员变量和基本类型成员变量都是按字节复制，导致浅拷贝问题
+
+![1606310130074](assets/1606310130074.png)
+
+```c++
+// 22copybytes.cpp
+#include <iostream>
+#include <cstring>
+using namespace std;
+//自己实现字符串类
+class String {
+public:
+    String( const char* psz="" ) 
+            : m_psz(strcpy(new char[strlen(psz)+1],psz)) {}
+    ~String( ) {
+        delete[] this->m_psz;
+        //对于基本类型m_psz，什么都不做
+    }// 将 m_psz 本身占据内存空间释放
+/*  编译器提供的默认拷贝构造  
+    String( const String& that ) {
+        【char* m_psz=that.m_psz;】
+        　定义m_psz,初值为that.m_psz;(只复制地址，不复制数)-->浅拷贝
+    }*/
+    String( const String& that ) : m_psz(new char[strlen(that.m_psz)+1]) {
+        //【char* m_psz=new char[strlen(that.m_psz]+1);】
+        strcpy( m_psz, that.m_psz ); // 只复制数据，不复制地址-->深拷贝
+    }
+/*  编译器提供的默认拷贝赋值函数
+    String& operator=( const String& that ) {
+        m_psz = that.m_psz; //只复制地址，不复制数据-->浅拷贝
+        return *this;
+    }*/
+    String& operator=( const String& that ) {
+        if( this != &that ) { //　防止自赋值
+            char*old = m_psz; 
+            m_psz = new char[strlen(that.m_psz)+1]; //申请新资源
+            strcpy( m_psz, that.m_psz ); // 拷贝新内容
+            delete[] old; // 释放旧资源
+        }
+        return *this; // 返回自引用
+    }
+    char* c_str( ) {
+        return m_psz;
+    }
+private:
+    char* m_psz;
+};
+
+int main( int argc, char* argv[] ) {
+    String s1( "hello" );
+    cout << "s1:" << s1.c_str() << ' ' << (void*)s1.c_str() << endl;
+
+    String s2 = s1;//(s1); // 定义s2,并利用s2.String(s1)
+    cout << "s2:" << s2.c_str() << ' ' << (void*)s2.c_str() << endl;
+
+    String s3;
+    s3 = s2; // s3.operator=(s2)
+    cout << "s3:" << s3.c_str() << ' ' << (void*)s3.c_str() << endl;
+    return 0;
+} // s1.~String() s2.~String()  s3.~String()  释放s1 s2本身所占据内存空间
+
+```
+
++ 相对于拷贝构造，拷贝赋值需要做更多的工作
+  + 避免自赋值
+
+  + 分配新资源
+
+  + 拷贝新内容
+  + 释放旧资源
+
+  + 返回自引用
+
++ 无论是拷贝构造还是拷贝赋值，其默认实现对任何类型的指针成员都是简单地按字节复制，因此应尽量避免使用指针型成员变量
+
++ 尽量通过引用或指针向函数传递对象型参数，既可以降低参数传递的开销，也能减少拷贝构造的机会
+
++ 出于具体原因的考虑，确实无法实现完整意义上的拷贝构造和拷贝赋值，可将它们私有化，以防误用
+
++ 如果为一个类提供了自定义的拷贝构造函数，就没有理由不提供实现相同逻辑的拷贝赋值运算符函数
+
